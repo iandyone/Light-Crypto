@@ -1,0 +1,25 @@
+.converner__button span {
+    background: url("../../assets/Button/refresh.svg") right center no-repeat;
+}
+
+
+.converter {
+    padding: 40px 0px;
+    background-color: #17171A;
+}
+.converter__container {
+}
+.container {
+}
+.converter__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    column-gap: 30px;
+}
+.converter__title {
+}
+
+.converter__body {
+}
