@@ -1,15 +1,10 @@
-.converner__button span {
+.converter__button span {
     background: url("../../assets/Button/refresh.svg") right center no-repeat;
 }
 
-
 .converter {
     padding: 40px 0px;
-    background-color: #17171A;
-}
-.converter__container {
-}
-.container {
+    background-color: #17171a;
 }
 .converter__header {
     display: flex;
@@ -18,8 +13,49 @@
     margin-bottom: 20px;
     column-gap: 30px;
 }
-.converter__title {
-}
 
 .converter__body {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 30px;
+}
+
+.converter__body > .converter__button {
+    display: none;
+}
+
+.converter__item {
+    display: flex;
+    flex: 0 1 600px;
+}
+
+@media (max-width: 768px) {
+    .converter__body {
+        flex-direction: column;
+        align-items: center;
+        row-gap: 20px;
+    }
+    .converter__item {
+        flex-basis: auto;
+        width: 100%;
+    }
+
+    .converter__header {
+        justify-content: center;
+    }
+
+    .converter__header > .converter__button {
+        display: none;
+    }
+
+    .converter__body > .converter__button {
+        display: inline-flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .converter__item {
+        flex-direction: column-reverse;
+        flex-basis: auto;
+    }
 }

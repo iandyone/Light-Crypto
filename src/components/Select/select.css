@@ -1,0 +1,31 @@
+.select {
+    padding: 10px 16px;
+    font-family: "DM Sans";
+    font-weight: 500;
+    font-size: 16px;
+    line-height: calc(24 / 16 * 100%);
+    color: #ffffff;
+    width: 100%;
+    max-width: 300px;
+    min-height: 46px;
+    background:url("../../assets/Select/arrow.svg") 95% center no-repeat, rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0px 12px 12px 0px;
+    appearance: none;
+}
+
+@media (max-width: 768px) {
+    .select {
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .select {
+        border-radius: 12px 12px 0px 0px;
+    }
+}
+
+.select__option {
+    background: #17171A;
+}
