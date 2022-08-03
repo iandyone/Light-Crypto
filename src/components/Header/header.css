@@ -1,0 +1,25 @@
+.header__body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0px;
+}
+.header__logo {
+    font-family: "DM Sans";
+    font-weight: 700;
+    font-size: 21px;
+    line-height: calc(40 / 21 * 100%);
+}
+.header__logo span {
+    padding-left: 28px;
+    background: url(../../assets/Header/ligthCryptoLabel.svg) left center no-repeat;
+}
+.header__button::before{
+    content: "...";
+    position: absolute;
+    top: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+}

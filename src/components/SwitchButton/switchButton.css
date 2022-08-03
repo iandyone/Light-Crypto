@@ -1,0 +1,16 @@
+.switch-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all .2s ease;
+    position: relative;
+}
+.switch-button:hover {
+    background-color: #333842;
+    transition: all .4s ease;
+}

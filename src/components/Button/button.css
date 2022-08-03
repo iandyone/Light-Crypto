@@ -1,0 +1,22 @@
+.button {
+    padding: 10px 16px;
+    min-height: 36px;
+    font-family: "DM Sans";
+    font-weight: 700;
+    font-size: 14px;
+    line-height: calc(16 / 14 * 100%);
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button:hover {
+    background-color: #333842;
+    transition: all 0.4s ease;
+}
+.button span {
+    padding-right: 24px;
+}
