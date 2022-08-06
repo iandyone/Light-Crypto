@@ -2,6 +2,7 @@ import { SET_COINS_DATA } from "../actions/coinsActions";
 
 const initialState = {
     data: {},
+    currentValue: 0,
     currencies: ["USD", "EUR", "RUB", "BYN", "UAH", "CNY", "GBP"],
 }
 

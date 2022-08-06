@@ -1,10 +1,14 @@
 import { Button } from "../Button/button";
 import { Input } from "../Input/input";
 import { Select } from "../Select/select";
+import { SwitchButton } from "../SwitchButton/switchButton";
 import { Title } from "../Title/title";
 import "./converter.css";
 
 export function Converter() {
+
+    
+
     return (
         <section className="light-crypto__converter converter">
             <div className="converter__container container">
@@ -14,9 +18,10 @@ export function Converter() {
                 </div>
                 <form className="converter__body">
                     <div className="converter__item">
-                        <Input className={"converter__input"} id={"cryptoInput"} />
+                        <Input className={"converter__input"} id={"cryptoInput"} placeholder={"Enter amound"}/>
                         <Select className={"converter__select"} id={"cryptoInput"} />
                     </div>
+                    <SwitchButton className={"converter__switch-button"} />
                     <div className="converter__item">
                         <Input className={"converter__input"} id={"currencyInput"} />
                         <Select className={"converter__select"} id={"currencyInput"} />
