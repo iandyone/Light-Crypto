@@ -10,7 +10,7 @@ export default function App() {
     const currencyList = useSelector(store => store.coins.currencies);
 
     useEffect(() => {
-       dispatch(getCoinsData(currencyList));
+        dispatch(getCoinsData(currencyList));
     })
 
     return (

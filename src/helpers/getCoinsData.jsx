@@ -1,12 +1,18 @@
 import axios from "axios";
 import { setCoinsDataAction } from "../store/actions/coinsActions";
+import { setCryptoScaleAction, setCurrencyScaleAction } from "../store/actions/inputActions";
 
 async function getCoinsPrices(coinsList, currencyList) {
-    const coins = coinsList.join(",");
-    const currencies = currencyList.join(",");
-    const pricesURL = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coins}&tsyms=${currencies}`;
-    const prices = await axios.get(pricesURL);
-    return prices.data;
+    try {
+        const coins = coinsList.join(",");
+        const currencies = Object.keys(currencyList);
+        const pricesURL = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coins}&tsyms=${currencies}`;
+        const prices = await axios.get(pricesURL);
+        return prices.data;
+    }
+    catch (e) {
+        console.log(e.message);
+    }
 }
 
 function getFilteredCoinsData(response) {
@@ -27,26 +33,34 @@ function getFilteredCoinsData(response) {
     return data;
 }
 
-export function getCoinsData(currencyList) {
+export function getCoinsData(currencyList, refreshDataFlag = false) {
     return async function (dispatch) {
-        const dataURL = "https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD";
-        const request = await axios.get(dataURL);
-        const response = await request.data.Data;
-        const data = getFilteredCoinsData(response);
-        const coinsList = [];
+        try {
+            const dataURL = "https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD";
+            const request = await axios.get(dataURL);
+            const response = await request.data.Data;
+            const data = getFilteredCoinsData(response);
+            const coinsList = [];
 
-        for (let i in data) {
-            coinsList.push(i)
+            for (let i in data) {
+                coinsList.push(i)
+            }
+
+            const priceList = await getCoinsPrices(coinsList, currencyList);
+
+            for (let i in data) {
+                data[i].prices = priceList[i];
+            }
+
+            console.log(data);
+            if (!refreshDataFlag) {
+                dispatch(setCryptoScaleAction(Object.keys(data)[0]));
+                dispatch(setCurrencyScaleAction(currencyList[Object.keys(currencyList)[0]].name))
+            }
+            dispatch(setCoinsDataAction(data));
         }
-
-        const priceList = await getCoinsPrices(coinsList, currencyList);
-
-        for (let i in data) {
-            data[i].prices = priceList[i];
+        catch (e) {
+            console.log(e.message);
         }
-
-        console.log(data);
-        dispatch(setCoinsDataAction(data));
     }
-}
-
+} 

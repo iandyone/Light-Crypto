@@ -12,6 +12,7 @@
     min-height: 46px;
     background:url("../../assets/Select/arrow.svg") 95% center no-repeat, rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: none;
     border-radius: 0px 12px 12px 0px;
     appearance: none;
     transition: background .2s ease;
@@ -21,19 +22,21 @@
     background:url("../../assets/Select/arrow.svg") 95% center no-repeat, rgba(255, 255, 255, 0.15);
     transition: background .2s ease;
 }
+.select__option {
+    background: #17171A;
+}
 
 @media (max-width: 768px) {
     .select {
         max-width: none;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: none;
     }
 }
-
 @media (max-width: 480px) {
     .select {
         border-radius: 12px 12px 0px 0px;
     }
 }
 
-.select__option {
-    background: #17171A;
-}
+
