@@ -1,0 +1,18 @@
+.user-input {
+    display: flex;
+    flex-direction: row-reverse;
+    flex: 0 1 600px;
+}
+
+@media (max-width: 768px) {
+    .user-input  {
+        flex-basis: auto;
+        width: 100%;
+    }
+}
+@media (max-width: 480px) {
+    .user-input  {
+        flex-direction: column;
+        flex-basis: auto;
+    }
+}

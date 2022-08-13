@@ -1,0 +1,27 @@
+.input {
+    padding: 10px 16px;
+    font-family: "DM Mono";
+    font-size: 16px;
+    line-height: calc(24 / 16 * 100%);
+    width: 100%;
+    max-width: 300px;
+    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px 0px 0px 12px;
+    background-color: transparent;
+}
+@media (max-width: 768px) {
+    .input {
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .input {
+        border-radius: 0px 0px 12px 12px;
+    }
+}
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

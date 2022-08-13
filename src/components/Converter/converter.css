@@ -1,0 +1,109 @@
+.converter {
+    padding: 40px 0px;
+    background-color: #17171a;
+}
+.converter__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    column-gap: 30px;
+}
+
+.converter__body {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 30px;
+}
+
+.converter__body > .converter__button {
+    display: none;
+}
+
+.converter__switch-button {
+    flex: 0 0 44px;
+    background: url("../../assets/Button/switch.svg") center no-repeat;
+}
+
+.converter .button {
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.converter .button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    animation: loadTimer 20s infinite linear;
+    background-color: rgba(217, 217, 217, 0.2);
+}
+
+.converter__button span::before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 0;
+    background: url("../../assets/Button/refresh.svg") right center no-repeat;
+    animation: rotate 20s ease infinite;
+}
+.converter__button span {
+    position: relative;
+}
+@keyframes loadTimer {
+    0% {
+        transform: translateX(-100%);
+    }
+    90%,95% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes rotate {
+    0%,90% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 768px) {
+    .converter__body {
+        flex-direction: column;
+        align-items: center;
+        row-gap: 20px;
+    }
+
+    .converter__header {
+        justify-content: center;
+    }
+
+    .converter__header > .converter__button {
+        display: none;
+    }
+
+    .converter__body > .converter__button {
+        display: inline-flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .converter__item {
+        flex-direction: column-reverse;
+        flex-basis: auto;
+    }
+
+    .converter__switch-button {
+        max-width: none;
+        width: 100%;
+    }
+}

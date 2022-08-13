@@ -1,0 +1,42 @@
+.select {
+    padding: 10px 35px 10px 16px;
+    font-family: "DM Sans";
+    font-weight: 500;
+    font-size: 16px;
+    line-height: calc(24 / 16 * 100%);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #ffffff;
+    width: 100%;
+    max-width: 300px;
+    min-height: 46px;
+    background:url("../../assets/Select/arrow.svg") 95% center no-repeat, rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: none;
+    border-radius: 0px 12px 12px 0px;
+    appearance: none;
+    transition: background .2s ease;
+}
+.select:hover {
+    cursor: pointer;
+    background:url("../../assets/Select/arrow.svg") 95% center no-repeat, rgba(255, 255, 255, 0.15);
+    transition: background .2s ease;
+}
+.select__option {
+    background: #17171A;
+}
+
+@media (max-width: 768px) {
+    .select {
+        max-width: none;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: none;
+    }
+}
+@media (max-width: 480px) {
+    .select {
+        border-radius: 12px 12px 0px 0px;
+    }
+}
+
+
