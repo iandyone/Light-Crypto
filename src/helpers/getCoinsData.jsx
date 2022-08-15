@@ -17,18 +17,24 @@ async function getCoinsPrices(coinsList, currencyList) {
 
 function getFilteredCoinsData(response) {
     const data = {};
-    response.forEach(item => {
+    response.forEach((item, index) => {
         const coin = item.CoinInfo.Name;
         data[coin] = {};
+        data[coin].displayed = {};
         data[coin].id = item.CoinInfo.Id;
         data[coin].name = item.CoinInfo.Name;
         data[coin].fullName = item.CoinInfo.FullName;
         data[coin].image = item.CoinInfo.ImageUrl;
-        data[coin].changeHour = item.DISPLAY.USD.CHANGEHOUR;
-        data[coin].changeDay = item.DISPLAY.USD.CHANGEDAY;
-        data[coin].supply = item.DISPLAY.USD.SUPPLY;
-        data[coin].marketCap = item.DISPLAY.USD.MKTCAP;
         data[coin].marketCapFull = item.RAW.USD.MKTCAP;
+        data[coin].lowDay = item.DISPLAY.USD.LOWDAY;
+        data[coin].displayed["#"] = index + 1;
+        data[coin].displayed["Name"] = item.CoinInfo.FullName;
+        data[coin].displayed["Price"] = item.DISPLAY.USD.PRICE;
+        data[coin].displayed["1h %"] = item.DISPLAY.USD.CHANGEHOUR;
+        data[coin].displayed["24h %"] = item.DISPLAY.USD.CHANGEDAY;
+        data[coin].displayed["Market Cap"] = item.DISPLAY.USD.MKTCAP;
+        data[coin].displayed["Volume24h"] = item.DISPLAY.USD.VOLUME24HOURTO;
+        data[coin].displayed["Circulating Supply"] = item.DISPLAY.USD.SUPPLY;
     });
     return data;
 }
@@ -39,6 +45,7 @@ export function getCoinsData(currencyList, refreshDataFlag = false) {
             const dataURL = "https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD";
             const request = await axios.get(dataURL);
             const response = await request.data.Data;
+            console.log(`clear data: `, response);
             const data = getFilteredCoinsData(response);
             const coinsList = [];
 
@@ -50,6 +57,7 @@ export function getCoinsData(currencyList, refreshDataFlag = false) {
 
             for (let i in data) {
                 data[i].prices = priceList[i];
+                data[i].displayed.Price = priceList[i].USD;
             }
 
             console.log(data);

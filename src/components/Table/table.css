@@ -1,0 +1,63 @@
+.table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+.table__coin {
+    height: 64px;
+}
+.table tr > * {
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 30px;
+    text-align: right;
+    white-space: nowrap;
+}
+.table tr > *:nth-child(1),
+.table tr > *:nth-child(2) {
+    text-align: left;
+    padding: 0 22px;
+    position: sticky;
+    z-index: 100;
+    background: #101012;
+}
+.table tr > *:nth-child(1) {
+    left: 0px;
+    padding-left: 0;
+    padding-right: 0;
+}
+.table tr > *:nth-child(2) {
+    padding-right: 25px;
+    left: 36px;
+}
+.table tr > :last-child {
+    padding: 0;
+}
+.table__head {
+    font-family: "DM Sans";
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 150%;
+    color: #ffffff;
+    height: 48px;
+
+    position: relative;
+    z-index: 120;
+    vertical-align: middle;
+}
+.table__body {
+    height: 64px;
+    display: table-row-group;
+    vertical-align: middle;
+}
+
+@media (max-width: 992px) {
+    .table tr > * {
+        padding: 0 30px;
+    }
+    .table tr > :last-child {
+        padding-right: 0;
+        padding-left: 30px;
+    }
+}

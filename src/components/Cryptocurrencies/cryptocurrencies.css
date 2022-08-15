@@ -1,0 +1,47 @@
+.cryptocurrencies {
+    padding: 40px 0px 70px 0px;
+    background: #101012;
+}
+.cryptocurrencies__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+.cryptocurrencies__title {
+    position: relative;
+}
+.cryptocurrencies__title::before {
+    content: "Live Prices";
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    font-family: "DM Sans";
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 114%;
+    letter-spacing: -0.04em;
+    height: 24px;
+    padding: 4px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ff764c;
+    border-radius: 8px;
+    transform: translate(100%, -50%);
+}
+.cryptocurrencies__button span {
+    background: url("../../assets/Button/arrow.svg") right center no-repeat;
+}
+.cryptocurrencies__body {
+    overflow: auto;
+}
+
+@media (max-width: 768px) {
+    .cryptocurrencies__header {
+        justify-content: center;
+    }
+    .cryptocurrencies__button {
+        display: none;
+    }
+}
