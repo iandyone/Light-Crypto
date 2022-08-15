@@ -5,11 +5,14 @@ const initialState = {
     currencies: {
         USD: { name: "USD", fullName: "United States Dollar" },
         EUR: { name: "EUR", fullName: "Euro" },
-        RUB: { name: "RUB", fullName: "Russian Ruble" },
-        BYN: { name: "BYN", fullName: "Belarussian Ruble" },
-        UAH: { name: "UAH", fullName: "Ukrainian Hryvnia" },
-        CNY: { name: "CNY", fullName: "Chinese Yuan" },
         GBP: { name: "GBP", fullName: "Pround Sterling" },
+        CHF: { name: "CHF", fullName: "Swiss Franc" },
+        AUD: { name: "AUD", fullName: "Australian Dollar" },
+        JPY: { name: "JPY", fullName: "Japanese Yen" },
+        CNY: { name: "CNY", fullName: "Chinese Yuan" },
+        PLN: { name: "PLN", fullName: "Polish Zloty" },
+        UAH: { name: "UAH", fullName: "Ukrainian Hryvnia" },
+        BYN: { name: "BYN", fullName: "Belarussian Ruble" },
     }
 }
 

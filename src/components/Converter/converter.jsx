@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCoinsData } from "../../helpers/getCoinsData";
 import { Button } from "../Button/button";
@@ -9,12 +10,18 @@ import "./converter.css";
 export function Converter() {
     const currencyList = useSelector(store => store.coins.currencies);
     const dispatch = useDispatch();
+    const refreshDataFlag = true;
 
     function refreshCryptoPrices(e) {
-        const refreshDataFlag = true;
         e.preventDefault();
         dispatch(getCoinsData(currencyList, refreshDataFlag));
     }
+    
+    useEffect(() => {
+        setInterval(() => {
+            dispatch(getCoinsData(currencyList, refreshDataFlag));
+        }, 20000);
+    })
 
     return (
         <section className="light-crypto__converter converter">

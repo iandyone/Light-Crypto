@@ -57,20 +57,21 @@
 }
 @keyframes loadTimer {
     0% {
-        transform: translateX(-100%);
+        transform: translateX(-1%);
     }
-    90%,95% {
-        transform: translateX(0%);
+    10%,
+    13% {
+        transform: translateX(-100%);
     }
     100% {
-        transform: translateX(-100%);
+        transform: translateX(0%);
     }
 }
-
 @keyframes rotate {
-    0%,90% {
+    0% {
         transform: rotate(0);
     }
+    10%,
     100% {
         transform: rotate(360deg);
     }
