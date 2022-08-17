@@ -20,21 +20,23 @@ function getFilteredCoinsData(response) {
     response.forEach((item, index) => {
         const coin = item.CoinInfo.Name;
         data[coin] = {};
-        data[coin].displayed = {};
         data[coin].id = item.CoinInfo.Id;
         data[coin].name = item.CoinInfo.Name;
         data[coin].fullName = item.CoinInfo.FullName;
         data[coin].image = item.CoinInfo.ImageUrl;
         data[coin].marketCapFull = item.RAW.USD.MKTCAP;
-        data[coin].lowDay = item.DISPLAY.USD.LOWDAY;
+        data[coin].price = item.DISPLAY.USD.PRICE;
+        data[coin].displayed = {};
         data[coin].displayed["#"] = index + 1;
         data[coin].displayed["Name"] = item.CoinInfo.FullName;
         data[coin].displayed["Price"] = item.DISPLAY.USD.PRICE;
-        data[coin].displayed["1h %"] = item.DISPLAY.USD.CHANGEHOUR;
-        data[coin].displayed["24h %"] = item.DISPLAY.USD.CHANGEDAY;
-        data[coin].displayed["Market Cap"] = item.DISPLAY.USD.MKTCAP;
-        data[coin].displayed["Volume24h"] = item.DISPLAY.USD.VOLUME24HOURTO;
-        data[coin].displayed["Circulating Supply"] = item.DISPLAY.USD.SUPPLY;
+        data[coin].displayed["1h %"] = item.RAW.USD.CHANGEPCTHOUR;
+        data[coin].displayed["24h %"] = item.RAW.USD.CHANGEPCTDAY;
+        data[coin].displayed["Market Cap"] = item.RAW.USD.MKTCAP;
+        /* data[coin].displayed["Market Cap"] = item.DISPLAY.USD.MKTCAP; */
+        data[coin].displayed["Volume24h"] = item.RAW.USD.VOLUME24HOURTO;
+        /* data[coin].displayed["Volume24h"] = item.DISPLAY.USD.VOLUME24HOURTO; */
+        data[coin].displayed["Circulating Supply"] = item.RAW.USD.SUPPLY;
     });
     return data;
 }
@@ -65,6 +67,7 @@ export function getCoinsData(currencyList, refreshDataFlag = false) {
                 dispatch(setCryptoScaleAction(Object.keys(data)[0]));
                 dispatch(setCurrencyScaleAction(currencyList[Object.keys(currencyList)[0]].name))
             }
+
             dispatch(setCoinsDataAction(data));
         }
         catch (e) {
