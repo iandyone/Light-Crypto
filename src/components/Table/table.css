@@ -2,11 +2,12 @@
     display: table;
     width: 100%;
     border-collapse: collapse;
+    border-spacing: 22px 0;
 }
-.table  span {
-    margin: 0px 0px 0px 12px;
-    opacity: .5;
-    background-color: #101012;
+.table span {
+    /* margin: 0px 0px 0px 12px; */
+    
+    background-color: transparent;
 }
 .table__coin {
     height: 64px;
@@ -15,7 +16,7 @@
     text-align: center;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-left: 20px;
+    padding-left: 22px;
     text-align: right;
     white-space: nowrap;
 
@@ -28,7 +29,7 @@
 .table tr > *:nth-child(1),
 .table tr > *:nth-child(2) {
     text-align: left;
-    padding: 0 22px;
+    /* padding: 0 22px; */
     position: sticky;
     z-index: 100;
     background: #101012;
@@ -37,15 +38,24 @@
     left: 0px;
     padding-left: 0;
     padding-right: 39px;
+    padding-right: 66px;
     text-align: right;
+    width: 18px;
+}
+.table tr > *:nth-child(1) span {
+    opacity: 0.5;
 }
 .table tr > *:nth-child(2) {
-    padding-right: 40px;
+    padding-right: 20px;
     padding-left: 0;
-    left: 70px;
+    left:84px;
+}
+.table tr > *:nth-child(3) {
+    min-width: 150px;
 }
 .table tr > :last-child {
     padding: 0;
+    padding-left: 22px;
 }
 .table__head {
     font-family: "DM Sans";
@@ -64,10 +74,14 @@
     vertical-align: middle;
 }
 .table__title {
-    font-family: "DM Sans" !important; 
+    font-family: "DM Sans" !important;
     font-weight: 700 !important;
     font-size: 16px !important;
     line-height: calc(24 / 16 * 100%) !important;
+}
+.table__title span {
+    margin-left: 22px;
+    opacity: 0.5;
 }
 .table__coin-icon {
     width: 24px;
@@ -76,6 +90,69 @@
 }
 .table__coin-icon img {
     width: 100%;
+}
+
+.table__data-up {
+    color: #44e67f !important;
+    /* animation: data-up 2s linear 1; */
+    animation: data-up 2s linear 1;
+}
+
+.table__data-down {
+    color: #ff764c !important;
+    animation: data-down 2s linear 1;
+    /* animation: data-down 2s linear 1; */
+}
+
+.table__data-up span,
+.table__data-down span {
+    position: relative;
+}
+
+.table__data-up span::before,
+.table__data-down span::before {
+    content: "";
+    position: absolute;
+    left: -22px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+}
+
+.table__data-up span::before {
+    background: url("../../assets/Table/arrow-up.svg") center no-repeat;
+}
+
+.table__data-down span::before {
+    background: url("../../assets/Table/arrow-down.svg") center no-repeat;
+}
+
+@keyframes data-up {
+    0% {
+        background-color: transparent;
+    }
+    2%,
+    60% {
+        background-color: rgba(68, 230, 127, 0.1);
+    }
+    90%,
+    100% {
+        background-color: transparent;
+    }
+}
+@keyframes data-down {
+    0% {
+        background-color: transparent;
+    }
+    2%,
+    60% {
+        background-color: rgba(255, 118, 76, 0.1);
+    }
+    90%,
+    100% {
+        background-color: transparent;
+    }
 }
 
 @media (max-width: 992px) {

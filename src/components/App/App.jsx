@@ -1,6 +1,7 @@
 import { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCoinsData } from '../../helpers/getCoinsData';
+import { setPreviousDataAction } from '../../store/actions/coinsActions';
 import { Converter } from '../Converter/converter';
 import { Cryptocurrencies } from '../Cryptocurrencies/cryptocurrencies';
 import { Header } from '../Header/header';
@@ -11,6 +12,7 @@ export default function App() {
     const currencyList = useSelector(store => store.coins.currencies);
 
     useEffect(() => {
+        dispatch(setPreviousDataAction());
         dispatch(getCoinsData(currencyList));
     })
 
