@@ -6,12 +6,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 28px;
+    margin-bottom: 26px;
 }
 .cryptocurrencies__title {
     position: relative;
 }
-.cryptocurrencies__title::before {
+.cryptocurrencies__title span::before {
     content: "Live Prices";
     position: absolute;
     right: -12px;
@@ -29,6 +29,18 @@
     background: #ff764c;
     border-radius: 8px;
     transform: translate(100%, -50%);
+    white-space: nowrap;
+}
+.cryptocurrencies__title span::after {
+    content: "🔥";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .cryptocurrencies__button span {
     background: url("../../assets/Button/arrow.svg") right center no-repeat;
@@ -38,10 +50,27 @@
 }
 
 @media (max-width: 768px) {
+    .cryptocurrencies {
+        padding: 40px 0px;
+    }
     .cryptocurrencies__header {
         justify-content: center;
+        margin-bottom: 55px;
+    }
+    .cryptocurrencies__title span::after {
+        left: -35px;
+    }
+    .cryptocurrencies__title span::before {
+        right: 50%;
+        top: 115%;
+        transform: translate(50%);
     }
     .cryptocurrencies__button {
         display: none;
+    }
+}
+@media (max-width: 443px) {
+    .cryptocurrencies__title span::before {
+        right: 55%;
     }
 }

@@ -1,0 +1,75 @@
+.table__coin-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+}
+.table__coin-icon img {
+    width: 100%;
+}
+.table__data-up {
+    color: #44e67f !important;
+    animation: data-up 2s linear 1;
+}
+.table__data-down {
+    color: #ff764c !important;
+    animation: data-down 2s linear 1;
+}
+.table__data-up span,
+.table__data-down span {
+    position: relative;
+}
+.table__data-up span::before,
+.table__data-down span::before {
+    content: "";
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+}
+.table__data-up span::before {
+    background: url("../../assets/Table/arrow-up.svg") center no-repeat;
+}
+.table__data-down span::before {
+    background: url("../../assets/Table/arrow-down.svg") center no-repeat;
+}
+
+@keyframes data-up {
+    0% {
+        background-color: transparent;
+    }
+    2%,
+    60% {
+        background-color: rgba(68, 230, 127, 0.1);
+    }
+    90%,
+    100% {
+        background-color: transparent;
+    }
+}
+@keyframes data-down {
+    0% {
+        background-color: transparent;
+    }
+    2%,
+    60% {
+        background-color: rgba(255, 118, 76, 0.1);
+    }
+    90%,
+    100% {
+        background-color: transparent;
+    }
+}
+
+@media (max-width: 600px) {
+    .table__data-name span {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .table__coin-icon {
+        margin-right: 5px;
+    }
+}

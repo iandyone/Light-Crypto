@@ -10,8 +10,7 @@ export function socketsReducer(state = initialState, action) {
         case SET_COIN_PRICE:
             return { ...state, socketsData: { ...state.socketsData, [action.payload.coin]: action.payload.price } };
         case SET_COIN_OLD_PRICE:
-            return { ...state, previosSocketData: { ...state.previosSocketData, [action.payload]: state.socketsData[action.payload] } };
-
+            return { ...state, previosSocketData: { ...state.previosSocketData, [action.payload]: state.socketsData[action.payload]} };
         default: return state
     }
 }

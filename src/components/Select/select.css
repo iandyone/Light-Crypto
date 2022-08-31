@@ -8,7 +8,7 @@
     text-overflow: ellipsis;
     color: #ffffff;
     width: 100%;
-    max-width: 300px;
+    max-width: 304px;
     min-height: 46px;
     background:url("../../assets/Select/arrow.svg") 95% center no-repeat, rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -38,5 +38,3 @@
         border-radius: 12px 12px 0px 0px;
     }
 }
-
-

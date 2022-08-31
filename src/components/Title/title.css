@@ -2,9 +2,22 @@
     font-family: "DM Sans";
     font-weight: 700;
     font-size: 24px;
-    line-height: calc(32 / 24 * 100%);
+    line-height: 31px;
     letter-spacing: -0.06em;
     text-transform: capitalize;
-    white-space: nowrap;
+    text-align: center;
     color: #ffffff;
+}
+.title span {
+    position: relative;
+    padding-left: 35px;
+}
+
+@media (max-width: 768px) {
+    .title {
+        padding: 0px 35px;
+    }
+    .title span {
+        padding-left: 0px;
+    }
 }

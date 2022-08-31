@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 0px;
+    padding: 12px 0px;
 }
 .header__logo {
     font-family: "DM Sans";

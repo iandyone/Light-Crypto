@@ -2,24 +2,42 @@
     padding: 40px 0px;
     background-color: #17171a;
 }
+.converter__title span::before {
+    content: "💎";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .converter__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     column-gap: 30px;
 }
 .converter__body {
     display: flex;
     justify-content: space-between;
-    column-gap: 30px;
+    position: relative;
+    column-gap: 64px;
+}
+.converter__body::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    background: url("../../assets/Button/equal.svg") center no-repeat;
 }
 .converter__body > .converter__button {
     display: none;
-}
-.converter__switch-button {
-    flex: 0 0 44px;
-    background: url("../../assets/Button/switch.svg") center no-repeat;
 }
 .converter .button {
     position: relative;
@@ -73,6 +91,9 @@
 }
 
 @media (max-width: 768px) {
+    .converter__title span::before {
+        left: -35px;
+    }
     .converter__body {
         flex-direction: column;
         align-items: center;
@@ -87,15 +108,14 @@
     .converter__body > .converter__button {
         display: inline-flex;
     }
+    .converter__body::before {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {
     .converter__item {
         flex-direction: column-reverse;
         flex-basis: auto;
-    }
-    .converter__switch-button {
-        max-width: none;
-        width: 100%;
     }
 }

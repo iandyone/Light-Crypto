@@ -1,4 +1,4 @@
-import { SET_ACTIVE_INPUT, SET_CRYPTO_SCALE, SET_CURRENCY_SCALE, SET_CURRENT_VALUE } from "../actions/inputActions"
+import { SET_ACTIVE_INPUT, SET_CRYPTO_SCALE, SET_CURRENCY_SCALE, SET_CURRENT_VALUE } from "../actions/inputActions";
 
 const initialState = {
     currentValue: "",

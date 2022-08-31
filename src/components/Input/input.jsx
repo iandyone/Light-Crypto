@@ -4,17 +4,17 @@ import "./input.css";
 
 export function Input(props) {
     const dispatch = useDispatch();
-    const cryptoScale = useSelector(store => store.input.cryptoScale);
-    const currencyScale = useSelector(store => store.input.currencyScale);
-    const activeInput = useSelector(store => store.input.activeInput)
-    const coinsData = useSelector(store => store.coins.data);
-    const currentValue = useSelector(store => store.input.currentValue);
-    const socketPrices = useSelector(store => store.sockets.socketsData);
-    const calcValue = getCalculatedValue() || "";
+    const cryptoScale = useSelector((store) => store.input.cryptoScale);
+    const currencyScale = useSelector((store) => store.input.currencyScale);
+    const activeInput = useSelector((store) => store.input.activeInput)
+    const coinsData = useSelector((store) => store.coins.data);
+    const currentValue = useSelector((store) => store.input.currentValue);
+    const socketPrices = useSelector((store) => store.sockets.socketsData);
+    const displayedValue = getDisplayedValue(currentValue, currencyScale) || "";
 
     function setInputValue(e) {
         dispatch(setCurrentValueAction(e.target.value));
-        
+
         if (e.target.id === "cryptoInput") {
             dispatch(setActiveInputAction("cryptoInput"));
         } else if (e.target.id === "currencyInput") {
@@ -22,23 +22,31 @@ export function Input(props) {
         }
     }
 
-    function getCalculatedValue() {
-        const socketValue = socketPrices[cryptoScale];
-        const value = coinsData[cryptoScale]?.prices[currencyScale];
-        const calculatedValue = (currencyScale === "USD") ? socketValue || value : value;
-
-        if (activeInput === props.id) {
-            return currentValue;
-        } else if (props.id === "cryptoInput") {
-            return currentValue / calculatedValue;
-        } else if (props.id === "currencyInput") {
-            return currentValue * calculatedValue;
-        } 
+    function getFormattedValue(value) {
+        if (value % 1 === 0) {
+            return value
+        } else if (value < 1) {
+            return Math.floor(value * 10000000000) / 10000000000;
+        } else {
+            return Math.floor(value * 100000) / 100000;
+        }
     }
 
-    return (
-        <input className={`${props.className} input`} id={props.id} type="number" placeholder={props.placeholder} value={calcValue} onChange={(e) => setInputValue(e)} />
-    );
+    function getDisplayedValue(currentValue, currencyScale) {
+        const socketPrice = socketPrices[cryptoScale];
+        const dataPrice = coinsData[cryptoScale]?.prices[currencyScale];
+        const currentPrice = (currencyScale === "USD") ? socketPrice || dataPrice : dataPrice;
+
+        if (activeInput === props.id) {
+            return getFormattedValue(currentValue);
+        } else if (props.id === "cryptoInput") {
+            return getFormattedValue(currentValue / currentPrice);
+        } else if (props.id === "currencyInput") {
+            return getFormattedValue(currentValue * currentPrice);
+        }
+    }
+
+    return <input className={`${props.className} input`} id={props.id} type="number" placeholder={props.placeholder} value={displayedValue} onChange={(e) => setInputValue(e)} />;
 }
 
 

@@ -1,7 +1,5 @@
 import "./title.css";
 
 export function Title(props) {
-    const className = `${props.className} title`
-
-    return <h2 className={className}>{props.content}</h2>
+    return <h2 className={`${props.className} title`}><span>{props.content}</span></h2>
 }

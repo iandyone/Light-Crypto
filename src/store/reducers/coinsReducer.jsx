@@ -26,7 +26,6 @@ export function coinReducer(state = initialState, action) {
             return { ...state, cryptocurrencies: action.payload };
         case SET_PREVIOUS_COINS_DATA:
             return { ...state, previousData: state.data };
-
         default: return state
     }
 }

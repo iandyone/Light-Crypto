@@ -15,10 +15,9 @@ async function getCoinsPrices(cryptosList, currencyList) {
     }
 }
 
-
 function getFilteredCoinsData(response) {
     // Вычисляемые свойства объекта displayed используются для создания столбцов таблицы. 
-    // При изменении cтобцов необходимо дополнить функцию форматирования данных getFormattedData в table.jsx для нового заголовка.
+    // При изменении cтобцов необходимо дополнить функцию форматирования данных getFormattedData для нового заголовка.
 
     const data = {};
     response.forEach((item, index) => {
@@ -39,7 +38,6 @@ function getFilteredCoinsData(response) {
         data[coin].displayed["Median"] = item.RAW.USD.MEDIAN;
         data[coin].displayed["Market Cap"] = item.RAW.USD.MKTCAP;
         data[coin].displayed["Volume24h"] = item.RAW.USD.VOLUME24HOURTO;
-        /* data[coin].displayed["Circulating Supply"] = item.RAW.USD.SUPPLY; */
     });
     return data;
 }
@@ -47,8 +45,7 @@ function getFilteredCoinsData(response) {
 export function getCoinsData(currencyList, refreshDataFlag = false) {
     return async function (dispatch) {
         try {
-           /*  const dataURL = "https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD"; */
-            const dataURL = "https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD";
+            const dataURL = "https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD";
             const request = await axios.get(dataURL);
             const response = await request.data.Data;                                       // полные данные, полученные от API
             const data = getFilteredCoinsData(response);
@@ -60,21 +57,18 @@ export function getCoinsData(currencyList, refreshDataFlag = false) {
                 cryptosData[coin] = { name: coin, fullName: data[coin].fullName };           // {BTC: {name: "BTC", fullname: "Bitcoin"}, ...}
             }
 
-            const priceList = await getCoinsPrices(cryptosList, currencyList);               // массив цен в разных валютах для каждой крипты
+            const priceList = await getCoinsPrices(cryptosList, currencyList);               
 
             for (let coin in data) {
                 data[coin].prices = priceList[coin];
                 data[coin].displayed.Price = priceList[coin].USD;
             }
 
-            console.log(data);
-
             if (!refreshDataFlag) {
                 dispatch(setCryptoScaleAction(Object.keys(data)[0]));
                 dispatch(setCurrencyScaleAction(currencyList[Object.keys(currencyList)[0]].name));
             }
 
-            /*        console.log(`old ${previousData.BTC.Price} - new: ${data.BTC.displayed.Price}`, ); */
             dispatch(setCryptosAction(cryptosData));
             dispatch(setCoinsDataAction(data));
         }

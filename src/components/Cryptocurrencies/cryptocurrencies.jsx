@@ -5,12 +5,12 @@ import { Button } from "../Button/button";
 import { Table } from "../Table/table";
 import { Title } from "../Title/title";
 import { apiKey } from "../../keys";
-import "./cryptocurrencies.css";
 import { setCoinOldPriceAction, setCoinPriceAction } from "../../store/actions/socketsActions";
+import "./cryptocurrencies.css";
 
 export function Cryptocurrencies() {
     const dispatch = useDispatch();
-    const cryptocurrencies = useSelector(store => store.coins?.cryptocurrencies) || {};
+    const cryptocurrencies = useSelector((store) => store.coins?.cryptocurrencies) || {};
 
     function getSocketSublinks(cryptocurrencies) {
         if (cryptocurrencies) {
@@ -45,7 +45,6 @@ export function Cryptocurrencies() {
                     const coin = json.FROMSYMBOL;
                     const price = json.PRICE;
                     
-                   /* console.log(json); */
                     if (price) {
                         dispatch(setCoinOldPriceAction(coin));
                         dispatch(setCoinPriceAction({ coin, price }));
@@ -63,7 +62,7 @@ export function Cryptocurrencies() {
         <article className="light-crypto__cryptocurrencies cryptocurrencies">
             <div className="cryptocurrencies__container container">
                 <div className="cryptocurrencies__header">
-                    <Title className={"cryptocurrencies__title"} content={"🔥 Top 10 Today's Cryptocurrencies"} />
+                    <Title className={"cryptocurrencies__title"} content={"Top 10 Today's Cryptocurrencies"} />
                     <Button className={"cryptocurrencies__button"} content={"all coins"} />
                 </div>
                 <div className="cryptocurrencies__body">
