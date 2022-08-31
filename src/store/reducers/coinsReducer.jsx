@@ -1,7 +1,9 @@
-import { SET_COINS_DATA } from "../actions/coinsActions";
+import { SET_COINS_DATA, SET_CRYPTOS, SET_PREVIOUS_COINS_DATA, } from "../actions/coinsActions";
 
 const initialState = {
     data: {},
+    previousData: {},
+    cryptocurrencies: {},
     currencies: {
         USD: { name: "USD", fullName: "United States Dollar" },
         EUR: { name: "EUR", fullName: "Euro" },
@@ -20,6 +22,11 @@ export function coinReducer(state = initialState, action) {
     switch (action.type) {
         case SET_COINS_DATA:
             return { ...state, data: action.payload };
+        case SET_CRYPTOS:
+            return { ...state, cryptocurrencies: action.payload };
+        case SET_PREVIOUS_COINS_DATA:
+            return { ...state, previousData: state.data };
+
         default: return state
     }
 }

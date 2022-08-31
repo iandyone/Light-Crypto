@@ -9,28 +9,23 @@
     margin-bottom: 20px;
     column-gap: 30px;
 }
-
 .converter__body {
     display: flex;
     justify-content: space-between;
     column-gap: 30px;
 }
-
 .converter__body > .converter__button {
     display: none;
 }
-
 .converter__switch-button {
     flex: 0 0 44px;
     background: url("../../assets/Button/switch.svg") center no-repeat;
 }
-
 .converter .button {
     position: relative;
     z-index: 10;
     overflow: hidden;
 }
-
 .converter .button::before {
     content: "";
     position: absolute;
@@ -42,7 +37,6 @@
     animation: loadTimer 20s infinite linear;
     background-color: rgba(217, 217, 217, 0.2);
 }
-
 .converter__button span::before {
     content: "";
     position: absolute;
@@ -55,6 +49,7 @@
 .converter__button span {
     position: relative;
 }
+
 @keyframes loadTimer {
     0% {
         transform: translateX(-1%);
@@ -83,15 +78,12 @@
         align-items: center;
         row-gap: 20px;
     }
-
     .converter__header {
         justify-content: center;
     }
-
     .converter__header > .converter__button {
         display: none;
     }
-
     .converter__body > .converter__button {
         display: inline-flex;
     }
@@ -102,7 +94,6 @@
         flex-direction: column-reverse;
         flex-basis: auto;
     }
-
     .converter__switch-button {
         max-width: none;
         width: 100%;

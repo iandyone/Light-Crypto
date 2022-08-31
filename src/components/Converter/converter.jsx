@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCoinsData } from "../../helpers/getCoinsData";
+import { setPreviousCoinsDataAction } from "../../store/actions/coinsActions";
 import { Button } from "../Button/button";
 import { SwitchButton } from "../SwitchButton/switchButton";
 import { Title } from "../Title/title";
@@ -14,11 +15,13 @@ export function Converter() {
 
     function refreshCryptoPrices(e) {
         e.preventDefault();
+        dispatch(setPreviousCoinsDataAction());
         dispatch(getCoinsData(currencyList, refreshDataFlag));
     }
     
     useEffect(() => {
         setInterval(() => {
+            dispatch(setPreviousCoinsDataAction());
             dispatch(getCoinsData(currencyList, refreshDataFlag));
         }, 20000);
     })
