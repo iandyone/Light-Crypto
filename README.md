@@ -4,7 +4,7 @@ A web tool for converting and real-time tracking cryptocurrency changes, created
 
 ## Deplpoy link:
 
-[https://iandy1731-light-crypto.netlify.app](https://iandy1731-light-crypto.netlify.app)
+[https://iandyone-light-crypto.netlify.app](https://iandyone-light-crypto.netlify.app/)
 
 ## Technologies:
 
