@@ -7,14 +7,15 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 26px;
+    position: relative;
 }
 .cryptocurrencies__title {
     position: relative;
 }
-.cryptocurrencies__title span::before {
+.cryptocurrencies__header::before {
     content: "Live Prices";
     position: absolute;
-    right: -12px;
+    right: 0px;
     top: 50%;
     font-family: "DM Sans";
     font-weight: 700;
@@ -28,7 +29,7 @@
     align-items: center;
     background: #ff764c;
     border-radius: 8px;
-    transform: translate(100%, -50%);
+    transform: translate(0%, -50%);
     white-space: nowrap;
 }
 .cryptocurrencies__title span::after {
@@ -60,7 +61,7 @@
     .cryptocurrencies__title span::after {
         left: -35px;
     }
-    .cryptocurrencies__title span::before {
+    .cryptocurrencies__header::before {
         right: 50%;
         top: 115%;
         transform: translate(50%);
