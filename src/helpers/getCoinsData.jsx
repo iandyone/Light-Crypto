@@ -4,6 +4,10 @@ import { setCryptoScaleAction, setCurrencyScaleAction } from "../store/actions/i
 
 async function getCoinsPrices(cryptosList, currencyList) {
     try {
+        if (!cryptosList.length) {
+            return {};
+        }
+
         const coins = cryptosList.join(",");
         const currencies = Object.keys(currencyList);
         const pricesURL = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coins}&tsyms=${currencies}`;
@@ -20,24 +24,39 @@ function getFilteredCoinsData(response) {
     // При изменении cтобцов необходимо дополнить функцию форматирования данных getFormattedData для нового заголовка.
 
     const data = {};
-    response.forEach((item, index) => {
-        const coin = item.CoinInfo.Name;
+    let displayedIndex = 1;
+
+    if (!Array.isArray(response)) {
+        return data;
+    }
+
+    response.forEach((item) => {
+        const coin = item.CoinInfo?.Name;
+        const rawUsd = item.RAW?.USD;
+        const displayUsd = item.DISPLAY?.USD;
+
+        if (!coin || !rawUsd || !displayUsd) {
+            return;
+        }
+
         data[coin] = {};
         data[coin].id = item.CoinInfo.Id;
         data[coin].name = item.CoinInfo.Name;
         data[coin].fullName = item.CoinInfo.FullName;
         data[coin].image = item.CoinInfo.ImageUrl;
-        data[coin].marketCapFull = item.RAW.USD.MKTCAP;
-        data[coin].price = item.DISPLAY.USD.PRICE;
+        data[coin].marketCapFull = rawUsd.MKTCAP;
+        data[coin].price = displayUsd.PRICE;
         data[coin].displayed = {};
-        data[coin].displayed["#"] = index + 1;
+        data[coin].displayed["#"] = displayedIndex;
         data[coin].displayed["Name"] = item.CoinInfo.FullName;
-        data[coin].displayed["Price"] = item.DISPLAY.USD.PRICE;
-        data[coin].displayed["1h %"] = item.RAW.USD.CHANGEPCTHOUR;
-        data[coin].displayed["24h %"] = item.RAW.USD.CHANGEPCTDAY;
-        data[coin].displayed["Median"] = item.RAW.USD.MEDIAN;
-        data[coin].displayed["Market Cap"] = item.RAW.USD.MKTCAP;
-        data[coin].displayed["Volume24h"] = item.RAW.USD.VOLUME24HOURTO;
+        data[coin].displayed["Price"] = displayUsd.PRICE;
+        data[coin].displayed["1h %"] = rawUsd.CHANGEPCTHOUR;
+        data[coin].displayed["24h %"] = rawUsd.CHANGEPCTDAY;
+        data[coin].displayed["Median"] = rawUsd.MEDIAN;
+        data[coin].displayed["Market Cap"] = rawUsd.MKTCAP;
+        data[coin].displayed["Volume24h"] = rawUsd.VOLUME24HOURTO;
+
+        displayedIndex += 1;
     });
     return data;
 }
@@ -60,8 +79,15 @@ export function getCoinsData(currencyList, refreshDataFlag = false) {
             const priceList = await getCoinsPrices(cryptosList, currencyList);               
 
             for (let coin in data) {
-                data[coin].prices = priceList[coin];
-                data[coin].displayed.Price = priceList[coin].USD;
+                data[coin].prices = {
+                    USD: data[coin].displayed.Price,
+                    ...priceList?.[coin],
+                };
+                data[coin].displayed.Price = data[coin].prices.USD;
+            }
+
+            if (!Object.keys(data).length) {
+                return;
             }
 
             if (!refreshDataFlag) {

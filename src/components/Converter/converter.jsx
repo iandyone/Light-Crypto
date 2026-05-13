@@ -10,20 +10,21 @@ import "./converter.css";
 export function Converter() {
     const currencyList = useSelector((store) => store.coins.currencies);
     const dispatch = useDispatch();
-    const refreshDataFlag = true;
 
     function refreshCryptoPrices(e) {
         e.preventDefault();
         dispatch(setPreviousCoinsDataAction());
-        dispatch(getCoinsData(currencyList, refreshDataFlag));
+        dispatch(getCoinsData(currencyList, true));
     }
     
     useEffect(() => {
-        setInterval(() => {
+        const intervalId = setInterval(() => {
             dispatch(setPreviousCoinsDataAction());
-            dispatch(getCoinsData(currencyList, refreshDataFlag));
+            dispatch(getCoinsData(currencyList, true));
         }, 20000);
-    })
+
+        return () => clearInterval(intervalId);
+    }, [dispatch, currencyList])
 
     return (
         <section className="light-crypto__converter converter">

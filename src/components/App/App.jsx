@@ -12,7 +12,7 @@ export default function App() {
 
     useEffect(() => {
         dispatch(getCoinsData(currencyList));
-    })
+    }, [dispatch, currencyList]);
 
     return (
         <Fragment>
