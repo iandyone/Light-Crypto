@@ -3,13 +3,14 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "../Table/table";
 import { Title } from "../Title/title";
-import { apiKey } from "../../keys";
 import { setCoinOldPriceAction, setCoinPriceAction } from "../../store/actions/socketsActions";
 import "./cryptocurrencies.css";
 
+const apiKey = process.env.REACT_APP_CRYPTOCOMPARE_API_KEY;
+
 export function Cryptocurrencies() {
     const dispatch = useDispatch();
-    const cryptocurrencies = useSelector((store) => store.coins?.cryptocurrencies) || {};
+    const cryptocurrencies = useSelector((store) => store.coins?.cryptocurrencies);
 
     function getSocketSublinks(cryptocurrencies) {
         if (cryptocurrencies) {
@@ -24,11 +25,13 @@ export function Cryptocurrencies() {
     }
 
      useEffect(() => {
-        if (cryptocurrencies) {
+        const coins = cryptocurrencies || {};
+
+        if (apiKey && Object.keys(coins).length) {
             const ccStreamer = new WebSocket(`wss://streamer.cryptocompare.com/v2?api_key=${apiKey}`);
 
             ccStreamer.onopen = function onStreamOpen() {
-                const subLinks = getSocketSublinks(cryptocurrencies);
+                const subLinks = getSocketSublinks(coins);
                 const subRequest = {
                     "action": "SubAdd",
                     "subs": [...subLinks]
@@ -55,7 +58,7 @@ export function Cryptocurrencies() {
                 ccStreamer.close();
             });
         }
-    })
+    }, [cryptocurrencies, dispatch])
 
     return (
         <article className="light-crypto__cryptocurrencies cryptocurrencies">
