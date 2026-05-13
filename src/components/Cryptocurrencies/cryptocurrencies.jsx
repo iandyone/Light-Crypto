@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "../Table/table";
@@ -39,7 +38,7 @@ export function Cryptocurrencies() {
                 ccStreamer.send(JSON.stringify(subRequest));
             };
 
-            ccStreamer.onmessage = function onStreamMessage() {
+            ccStreamer.onmessage = function onStreamMessage(event) {
                 const message = event.data;
                 const json = JSON.parse(message)
 

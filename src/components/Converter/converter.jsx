@@ -19,6 +19,10 @@ export function Converter() {
     
     useEffect(() => {
         const intervalId = setInterval(() => {
+            if (document.hidden) {
+                return;
+            }
+
             dispatch(setPreviousCoinsDataAction());
             dispatch(getCoinsData(currencyList, true));
         }, 20000);

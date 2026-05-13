@@ -81,6 +81,15 @@
     margin-left: 22px;
     opacity: 0.5;
 }
+.table__message {
+    height: 64px;
+    padding-left: 0 !important;
+    left: auto !important;
+    position: static !important;
+    text-align: center !important;
+    width: auto !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+}
 
 @media (max-width: 992px) {
     .table tr > * {

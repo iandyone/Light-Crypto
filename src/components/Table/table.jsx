@@ -6,15 +6,17 @@ import "./table.css";
 export function Table(props) {
     const coinsData = useSelector((store) => store.coins.data);
     const previousData = useSelector((store) => store.coins.previousData);
+    const isLoading = useSelector((store) => store.coins.isLoading);
+    const error = useSelector((store) => store.coins.error);
     const socketsData = useSelector((store) => store.sockets.socketsData);
-    const previosSocketData = useSelector((store) => store.sockets.previosSocketData);  
+    const previousSocketData = useSelector((store) => store.sockets.previousSocketData);  
     const coinsList = Object.keys(coinsData);                                           
     const displayedData = coinsData[Object.keys(coinsData)[0]]?.displayed;              
     const tableHeaders = (displayedData) ? Object.keys(displayedData) : [];             
 
     function getDataClasses(coinName, header) {
         const socketPrice = socketsData[coinName];
-        const oldSocketPrice = previosSocketData[coinName];
+        const oldSocketPrice = previousSocketData[coinName];
         const dataPrice = coinsData[coinName]?.displayed[header];
         const oldDataPrice = previousData[coinName]?.displayed[header];
     
@@ -79,7 +81,22 @@ export function Table(props) {
                 </tr>
             </thead>
             <tbody className="table__body">
-                {coinsData && coinsList.map((coinName, rowIndex) => {
+                {isLoading && !coinsList.length && (
+                    <tr className="table__coin">
+                        <td className="table__message" colSpan="8">Loading...</td>
+                    </tr>
+                )}
+                {error && !coinsList.length && (
+                    <tr className="table__coin">
+                        <td className="table__message" colSpan="8">{error}</td>
+                    </tr>
+                )}
+                {!isLoading && !error && !coinsList.length && (
+                    <tr className="table__coin">
+                        <td className="table__message" colSpan="8">No data available</td>
+                    </tr>
+                )}
+                {coinsList.map((coinName, rowIndex) => {
                     return getTableContent(coinName, rowIndex);
                 })}
             </tbody>

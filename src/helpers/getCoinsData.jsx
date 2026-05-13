@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setCoinsDataAction, setCryptosAction } from "../store/actions/coinsActions";
+import { setCoinsDataAction, setCoinsErrorAction, setCoinsLoadingAction, setCryptosAction } from "../store/actions/coinsActions";
 import { setCryptoScaleAction, setCurrencyScaleAction } from "../store/actions/inputActions";
 
 async function getCoinsPrices(cryptosList, currencyList) {
@@ -61,32 +61,47 @@ function getFilteredCoinsData(response) {
     return data;
 }
 
+function getCryptosData(data) {
+    const cryptosList = [];
+    const cryptosData = {};
+
+    for (let coin in data) {
+        cryptosList.push(coin);                                                      // ['BTC', 'ETH', 'SOL', 'BUSD', 'BNB', 'USDT', 'USDC', 'XRP', 'ADA', 'EOS`]
+        cryptosData[coin] = { name: coin, fullName: data[coin].fullName };           // {BTC: {name: "BTC", fullname: "Bitcoin"}, ...}
+    }
+
+    return { cryptosList, cryptosData };
+}
+
+function addPricesToCoinsData(data, priceList) {
+    for (let coin in data) {
+        data[coin].prices = {
+            USD: data[coin].displayed.Price,
+            ...priceList?.[coin],
+        };
+        data[coin].displayed.Price = data[coin].prices.USD;
+    }
+
+    return data;
+}
+
 export function getCoinsData(currencyList, refreshDataFlag = false) {
     return async function (dispatch) {
         try {
+            dispatch(setCoinsLoadingAction(true));
+            dispatch(setCoinsErrorAction(""));
+
             const dataURL = "https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD";
             const request = await axios.get(dataURL);
             const response = await request.data.Data;                                       // полные данные, полученные от API
             const data = getFilteredCoinsData(response);
-            const cryptosList = [];
-            const cryptosData = {};
-
-            for (let coin in data) {
-                cryptosList.push(coin);                                                      // ['BTC', 'ETH', 'SOL', 'BUSD', 'BNB', 'USDT', 'USDC', 'XRP', 'ADA', 'EOS`]
-                cryptosData[coin] = { name: coin, fullName: data[coin].fullName };           // {BTC: {name: "BTC", fullname: "Bitcoin"}, ...}
-            }
+            const { cryptosList, cryptosData } = getCryptosData(data);
 
             const priceList = await getCoinsPrices(cryptosList, currencyList);               
-
-            for (let coin in data) {
-                data[coin].prices = {
-                    USD: data[coin].displayed.Price,
-                    ...priceList?.[coin],
-                };
-                data[coin].displayed.Price = data[coin].prices.USD;
-            }
+            addPricesToCoinsData(data, priceList);
 
             if (!Object.keys(data).length) {
+                dispatch(setCoinsErrorAction("No data available"));
                 return;
             }
 
@@ -100,6 +115,10 @@ export function getCoinsData(currencyList, refreshDataFlag = false) {
         }
         catch (e) {
             console.log(e.message);
+            dispatch(setCoinsErrorAction("Failed to load data"));
+        }
+        finally {
+            dispatch(setCoinsLoadingAction(false));
         }
     }
 } 
