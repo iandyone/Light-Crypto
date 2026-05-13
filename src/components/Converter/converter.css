@@ -43,6 +43,8 @@
     position: relative;
     z-index: 10;
     overflow: hidden;
+    box-sizing: border-box;
+    width: 128px;
 }
 .converter .button::before {
     content: "";
@@ -60,12 +62,25 @@
     position: absolute;
     width: 16px;
     height: 16px;
-    right: 0;
+    right: 4px;
     background: url("../../assets/Button/refresh.svg") right center no-repeat;
-    animation: rotate 20s ease infinite;
 }
 .converter__button span {
+    display: block;
     position: relative;
+    width: 100%;
+    padding-right: 24px;
+    text-align: center;
+}
+.converter__button_updating {
+    background-color: #333842;
+    pointer-events: none;
+}
+.converter__button_rotating span::before {
+    animation: rotateRefresh 1.6s ease-out;
+}
+.converter__button_updated {
+    background-color: rgba(68, 176, 123, 0.28);
 }
 
 @keyframes loadTimer {
@@ -80,11 +95,10 @@
         transform: translateX(0%);
     }
 }
-@keyframes rotate {
+@keyframes rotateRefresh {
     0% {
         transform: rotate(0);
     }
-    10%,
     100% {
         transform: rotate(360deg);
     }
