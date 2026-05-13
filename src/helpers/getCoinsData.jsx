@@ -45,11 +45,11 @@ function getFilteredCoinsData(response) {
         data[coin].fullName = item.CoinInfo.FullName;
         data[coin].image = item.CoinInfo.ImageUrl;
         data[coin].marketCapFull = rawUsd.MKTCAP;
-        data[coin].price = displayUsd.PRICE;
+        data[coin].price = rawUsd.PRICE;
         data[coin].displayed = {};
         data[coin].displayed["#"] = displayedIndex;
         data[coin].displayed["Name"] = item.CoinInfo.FullName;
-        data[coin].displayed["Price"] = displayUsd.PRICE;
+        data[coin].displayed["Price"] = rawUsd.PRICE;
         data[coin].displayed["1h %"] = rawUsd.CHANGEPCTHOUR;
         data[coin].displayed["24h %"] = rawUsd.CHANGEPCTDAY;
         data[coin].displayed["Median"] = rawUsd.MEDIAN;
@@ -85,6 +85,22 @@ function addPricesToCoinsData(data, priceList) {
     return data;
 }
 
+function sortCoinsDataByPrice(data) {
+    return Object.entries(data)
+        .sort(([, firstCoinData], [, secondCoinData]) => secondCoinData.displayed.Price - firstCoinData.displayed.Price)
+        .reduce((sortedData, [coin, coinData], index) => {
+            sortedData[coin] = {
+                ...coinData,
+                displayed: {
+                    ...coinData.displayed,
+                    "#": index + 1,
+                },
+            };
+
+            return sortedData;
+        }, {});
+}
+
 export function getCoinsData(currencyList, refreshDataFlag = false) {
     return async function (dispatch) {
         try {
@@ -95,23 +111,25 @@ export function getCoinsData(currencyList, refreshDataFlag = false) {
             const request = await axios.get(dataURL);
             const response = await request.data.Data;                                       // полные данные, полученные от API
             const data = getFilteredCoinsData(response);
-            const { cryptosList, cryptosData } = getCryptosData(data);
+            const { cryptosList } = getCryptosData(data);
 
             const priceList = await getCoinsPrices(cryptosList, currencyList);               
             addPricesToCoinsData(data, priceList);
+            const sortedData = sortCoinsDataByPrice(data);
+            const { cryptosData } = getCryptosData(sortedData);
 
-            if (!Object.keys(data).length) {
+            if (!Object.keys(sortedData).length) {
                 dispatch(setCoinsErrorAction("No data available"));
                 return;
             }
 
             if (!refreshDataFlag) {
-                dispatch(setCryptoScaleAction(Object.keys(data)[0]));
+                dispatch(setCryptoScaleAction(Object.keys(sortedData)[0]));
                 dispatch(setCurrencyScaleAction(currencyList[Object.keys(currencyList)[0]].name));
             }
 
             dispatch(setCryptosAction(cryptosData));
-            dispatch(setCoinsDataAction(data));
+            dispatch(setCoinsDataAction(sortedData));
         }
         catch (e) {
             console.log(e.message);
