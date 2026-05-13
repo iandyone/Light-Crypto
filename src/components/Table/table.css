@@ -1,4 +1,5 @@
 .table {
+    --table-id-column-width: 44px;
     display: table;
     width: 100%;
     border-collapse: collapse;
@@ -34,9 +35,11 @@
 .table tr > *:nth-child(1) {
     left: 0px;
     padding-left: 0;
-    padding-right: 26px;
+    padding-right: 12px;
     text-align: right;
-    width: 18px;
+    box-sizing: border-box;
+    min-width: var(--table-id-column-width);
+    width: var(--table-id-column-width);
 }
 .table tr > *:nth-child(1) span {
     opacity: 0.5;
@@ -44,7 +47,7 @@
 .table tr > *:nth-child(2) {
     padding-right: 20px;
     padding-left: 0;
-    left: 44px;
+    left: var(--table-id-column-width);
 }
 .table tr > *:nth-child(3) {
     min-width: 150px;
@@ -109,11 +112,13 @@
 }
 
 @media (max-width:768px ) {
+    .table {
+        --table-id-column-width: 36px;
+    }
     .table tr > *:nth-child(1) {
         padding-right: 10px;
     }
     .table tr > *:nth-child(2) {
-        left: 28px;
         padding-right: 15px;
     }
 }
