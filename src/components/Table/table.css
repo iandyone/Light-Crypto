@@ -93,6 +93,52 @@
     width: auto !important;
     color: rgba(255, 255, 255, 0.65) !important;
 }
+.table__coin_loading:hover > * {
+    background-color: transparent !important;
+}
+.table__skeleton {
+    display: block;
+    height: 14px;
+    border-radius: 4px;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(255, 255, 255, 0.08) 32%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.08) 68%,
+        rgba(255, 255, 255, 0.08) 100%
+    );
+    background-size: 200% 100%;
+    animation: tableSkeleton 2.2s backwards infinite;
+}
+.table__skeleton_id {
+    width: 16px;
+    margin-left: auto;
+}
+.table__skeleton_name {
+    width: 150px;
+}
+.table__skeleton_price {
+    width: 92px;
+    margin-left: auto;
+}
+.table__skeleton_short {
+    width: 64px;
+    margin-left: auto;
+}
+.table__skeleton_wide {
+    width: 118px;
+    margin-left: auto;
+}
+
+@keyframes tableSkeleton {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
 
 @media (max-width: 992px) {
     .table tr > * {

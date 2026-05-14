@@ -71,6 +71,29 @@ export function Table(props) {
         )
     }
 
+    function getLoaderContent(rowIndex) {
+        const skeletonItems = [
+            "table__skeleton_id",
+            "table__skeleton_name",
+            "table__skeleton_price",
+            "table__skeleton_short",
+            "table__skeleton_short",
+            "table__skeleton_price",
+            "table__skeleton_wide",
+            "table__skeleton_wide",
+        ];
+
+        return (
+            <tr className="table__coin table__coin_loading" key={`loader-${rowIndex}`}>
+                {skeletonItems.map((itemClassName, index) => (
+                    <td key={`${rowIndex}-${itemClassName}-${index}`}>
+                        <span className={`table__skeleton ${itemClassName}`}></span>
+                    </td>
+                ))}
+            </tr>
+        );
+    }
+
     return (
         <table className={`${props.className} table`}>
             <thead className="table__head">
@@ -82,9 +105,7 @@ export function Table(props) {
             </thead>
             <tbody className="table__body">
                 {isLoading && !coinsList.length && (
-                    <tr className="table__coin">
-                        <td className="table__message" colSpan="8">Loading...</td>
-                    </tr>
+                    [0, 1, 2].map((item) => getLoaderContent(item))
                 )}
                 {error && !coinsList.length && (
                     <tr className="table__coin">
