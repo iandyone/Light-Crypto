@@ -2,6 +2,23 @@ import axios from "axios";
 import { setCoinsDataAction, setCoinsErrorAction, setCoinsLoadingAction, setCryptosAction } from "../store/actions/coinsActions";
 import { setCryptoScaleAction, setCurrencyScaleAction } from "../store/actions/inputActions";
 
+const apiKey = process.env.REACT_APP_CRYPTOCOMPARE_API_KEY;
+const apiRootURL = "https://min-api.cryptocompare.com";
+
+function getCryptoCompareURL(path, params) {
+    const url = new URL(path, apiRootURL);
+
+    Object.entries(params).forEach(([key, value]) => {
+        url.searchParams.set(key, value);
+    });
+
+    if (apiKey) {
+        url.searchParams.set("api_key", apiKey);
+    }
+
+    return url.toString();
+}
+
 async function getCoinsPrices(cryptosList, currencyList) {
     try {
         if (!cryptosList.length) {
@@ -9,8 +26,11 @@ async function getCoinsPrices(cryptosList, currencyList) {
         }
 
         const coins = cryptosList.join(",");
-        const currencies = Object.keys(currencyList);
-        const pricesURL = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coins}&tsyms=${currencies}`;
+        const currencies = Object.keys(currencyList).join(",");
+        const pricesURL = getCryptoCompareURL("/data/pricemulti", {
+            fsyms: coins,
+            tsyms: currencies,
+        });
         const prices = await axios.get(pricesURL);
         return prices.data;
     }
@@ -107,7 +127,10 @@ export function getCoinsData(currencyList, refreshDataFlag = false) {
             dispatch(setCoinsLoadingAction(true));
             dispatch(setCoinsErrorAction(""));
 
-            const dataURL = "https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD";
+            const dataURL = getCryptoCompareURL("/data/top/totalvolfull", {
+                limit: 10,
+                tsym: "USD",
+            });
             const request = await axios.get(dataURL);
             const response = await request.data.Data;                                       // полные данные, полученные от API
             const data = getFilteredCoinsData(response);
