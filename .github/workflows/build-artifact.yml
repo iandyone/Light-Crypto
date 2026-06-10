@@ -1,0 +1,49 @@
+name: "Build Artifact"
+
+run-name: "Build Artifact run name"
+
+on: [workflow_dispatch]
+
+jobs:
+  Build:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Cloning repository"
+        uses: actions/checkout@v6
+        with:
+          show-progress: true
+
+      - name: "Setup node"
+        uses: actions/setup-node@v6
+        with:
+          node-version: "18.x"
+          cache: "npm"
+
+      - name: "Install dependencies"
+        run: npm ci
+
+      - name: "Check if API_KEY defined"
+        if: ${{ github.secrets.REACT_APP_CRYPTOCOMPARE_API_KEY }}
+        run: echo REACT_APP_CRYPTOCOMPARE_API_KEY is defined!
+
+      - name: "Check if API_KEY defined"
+        if: ${{ !github.secrets.REACT_APP_CRYPTOCOMPARE_API_KEY }}
+        run: |
+          echo REACT_APP_CRYPTOCOMPARE_API_KEY is NOT defined
+          exit 1
+
+      - name: "Build"
+        if: ${{ success() }}
+        run: |
+          npm run build
+          test -d build
+          test -f build/index.html
+
+      - name: "Create build artefact"
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v7
+        with:
+          # изучить версионирование в сicd
+          name: "Build-master-v.x.x.x"
+          path: "./build"
+          retention-days: 1
