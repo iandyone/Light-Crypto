@@ -54,7 +54,7 @@
     bottom: 0;
     right: 0;
     z-index: 0;
-    animation: loadTimer 20s infinite linear;
+    animation: loadTimer var(--refresh-interval, 300s) infinite linear;
     background-color: rgba(217, 217, 217, 0.2);
 }
 .converter__button span::before {

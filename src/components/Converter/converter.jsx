@@ -7,6 +7,9 @@ import { Title } from "../Title/title";
 import { UserInput } from "../UserInput/userInput";
 import "./converter.css";
 
+const refreshInterval = 5 * 60 * 1000;
+const refreshIntervalSeconds = `${refreshInterval / 1000}s`;
+
 export function Converter() {
     const currencyList = useSelector((store) => store.coins.currencies);
     const dispatch = useDispatch();
@@ -56,7 +59,7 @@ export function Converter() {
             }
 
             refreshCryptoPrices();
-        }, 20000);
+        }, refreshInterval);
 
         return () => clearInterval(intervalId);
     }, [refreshCryptoPrices, timerKey])
@@ -98,7 +101,7 @@ export function Converter() {
     }, [refreshStatus])
 
     return (
-        <section className="light-crypto__converter converter">
+        <section className="light-crypto__converter converter" style={{ "--refresh-interval": refreshIntervalSeconds }}>
             <div className="converter__container container">
                 <div className="converter__header">
                     <Title className={"converter__title"} content={"Cryptocurrency Converter"} />
