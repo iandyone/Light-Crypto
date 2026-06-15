@@ -1,6 +1,6 @@
-name: "Build and deploy"
+name: "Build, deploy and release"
 
-run-name: "Make a build and deploy to VPS"
+run-name: "Make a build, deploy to VPS and create the release"
 
 on:
   push:
@@ -10,10 +10,13 @@ on:
 env:
   RELEASE_DIR: /var/www/crypto/releases/${{ github.ref_name }}
   CURRENT_LINK: /var/www/crypto/current
+  PRODUCTION_URL: https://lightcrypto.website
 
 jobs:
   Build:
     runs-on: "ubuntu-latest"
+    permissions:
+      contents: "read"
     steps:
       - name: "Cloning repository"
         uses: actions/checkout@v6
@@ -24,11 +27,11 @@ jobs:
           node-version: "20.x"
           cache: "npm"
 
-      - name: "Checking for critical dependency vulnerabilities"
-        run: npm audit --audit-level=critical
-
       - name: "Install dependencies"
         run: npm ci
+
+      - name: "Checking for critical dependency vulnerabilities"
+        run: npm audit --audit-level=critical
 
       - name: "Build"
         if: ${{ success() }}
@@ -47,6 +50,9 @@ jobs:
   Deploy:
     runs-on: "ubuntu-latest"
     needs: ["Build"]
+    environment: production
+    permissions:
+      contents: "read"
     steps:
       - name: "Check nginx"
         uses: appleboy/ssh-action@v1
@@ -61,7 +67,6 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: "light-crypto-${{ github.ref_name }}"
-          # копируем с папкой build
           path: ./build
 
       - name: "Copy files via SSH to releases directory"
@@ -117,60 +122,18 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            curl -f lightcrypto.website
+            curl -fsS ${{ env.PRODUCTION_URL }}
 
-# Example: save previous release target and rollback inside one SSH script
-#
-# Why one script block:
-# PREVIOUS_RELEASE is a shell variable. It exists only inside the current shell session.
-# If you set it in one ssh-action step, it will not be available in another ssh-action step.
-#
-# - name: "Switch current symlink with rollback example"
-#   uses: appleboy/ssh-action@v1
-#   with:
-#     host: ${{ secrets.SSH_ADDRESS }}
-#     username: ${{ secrets.SSH_USER }}
-#     key: ${{ secrets.SSH_PRIVATE_KEY }}
-#     script: |
-#       set -e
-#
-#       NEW_RELEASE="${{ env.RELEASE_DIR }}"
-#       CURRENT_LINK="${{ env.CURRENT_LINK }}"
-#       HEALTHCHECK_URL="https://lightcrypto.website"
-#
-#       test -f "$NEW_RELEASE/index.html"
-#
-#       # Save the release that is currently served before switching.
-#       # If current does not exist yet, keep the variable empty.
-#       PREVIOUS_RELEASE=""
-#       if test -L "$CURRENT_LINK"; then
-#         PREVIOUS_RELEASE=$(readlink -f "$CURRENT_LINK")
-#       fi
-#
-#       echo "Previous release: $PREVIOUS_RELEASE"
-#       echo "New release: $NEW_RELEASE"
-#
-#       ln -sfn "$NEW_RELEASE" "$CURRENT_LINK"
-#       test -f "$CURRENT_LINK/index.html"
-#
-#       nginx -t
-#       nginx -s reload
-#
-#       # If the health check fails, switch current back to the previous release.
-#       if ! curl -fsS "$HEALTHCHECK_URL" > /dev/null; then
-#         echo "Health check failed. Rolling back..."
-#
-#         if test -n "$PREVIOUS_RELEASE" && test -d "$PREVIOUS_RELEASE"; then
-#           ln -sfn "$PREVIOUS_RELEASE" "$CURRENT_LINK"
-#           nginx -t
-#           nginx -s reload
-#           echo "Rolled back to: $PREVIOUS_RELEASE"
-#         else
-#           echo "No previous release available for rollback"
-#         fi
-#
-#         exit 1
-#       fi
-#
-#       echo "Deploy succeeded"
-#       readlink -f "$CURRENT_LINK"
+  Release:
+    runs-on: "ubuntu-latest"
+    needs: ["Build", "Deploy"]
+    permissions:
+      contents: "write"
+    steps:
+      - name: "Cloning repository"
+        uses: actions/checkout@v6
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${{ github.ref_name }}" --fail-on-no-commits --generate-notes
