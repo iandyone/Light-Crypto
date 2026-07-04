@@ -6,6 +6,8 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    
 
 env:
   RELEASE_DIR: /var/www/crypto/releases/${{ github.ref_name }}
